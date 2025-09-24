@@ -19,7 +19,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->title(),
+            'title' => fake()->name(),
             'description' => fake()->paragraph,
             'status' => fake()->randomElement(TaskStatus::cases()),
             'due_date' => fake()->dateTimeBetween('now', '+1 year'),

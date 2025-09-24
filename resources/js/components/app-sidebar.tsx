@@ -15,11 +15,18 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import tasks from '@/routes/tasks';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
+        icon: LayoutGrid,
+    },
+
+    {
+        title: 'Tasks',
+        href: tasks.index().url,
         icon: LayoutGrid,
     },
 ];
