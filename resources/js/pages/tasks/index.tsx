@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,6 +20,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index({ tasks }) {
+    const { t } = useLaravelReactI18n();
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tasks" />
@@ -39,7 +42,7 @@ export default function Index({ tasks }) {
                                 {task.title}
                             </TableCell>
                             <TableCell>{task.description.slice(0, 30)}...</TableCell>
-                            <TableCell>{task.status}</TableCell>
+                            <TableCell>{t(`common.status.${task.status}`)}</TableCell>
                             <TableCell>
                                 {new Date(task.due_date).toLocaleDateString()}
                             </TableCell>
