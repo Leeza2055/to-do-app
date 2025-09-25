@@ -11,6 +11,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
+import AppPagination from "@/components/app-pagination"
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -36,24 +38,38 @@ export default function Index({ tasks }) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {tasks.length > 0 ? tasks.map((task) => (
-                        <TableRow key={task.id}>
-                            <TableCell className="font-medium">
-                                {task.title}
-                            </TableCell>
-                            <TableCell>{task.description.slice(0, 30)}...</TableCell>
-                            <TableCell>{t(`common.status.${task.status}`)}</TableCell>
-                            <TableCell>
-                                {new Date(task.due_date).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell>
-                                {task.user.name}
+                    {tasks.data.length > 0 ? (
+                        tasks.data.map((task) => (
+                            <TableRow key={task.id}>
+                                <TableCell className="font-medium">
+                                    {task.title}
+                                </TableCell>
+                                <TableCell>
+                                    {task.description.slice(0, 30)}...
+                                </TableCell>
+                                <TableCell>
+                                    {t(`common.status.${task.status}`)}
+                                </TableCell>
+                                <TableCell>
+                                    {new Date(
+                                        task.due_date,
+                                    ).toLocaleDateString()}
+                                </TableCell>
+                                <TableCell>{task.user.name}</TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={5} className="text-center">
+                                <div>No tasks found.</div>
                             </TableCell>
                         </TableRow>
-                    )) :
-                    <TableRow><TableCell colSpan={5} className="text-center"><div>No tasks found.</div></TableCell></TableRow>}
+                    )}
                 </TableBody>
             </Table>
+            {tasks.links.length > 3 && (
+                <AppPagination links={tasks.links} />
+            )}
         </AppLayout>
     );
 }

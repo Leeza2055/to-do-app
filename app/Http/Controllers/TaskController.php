@@ -14,7 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('user')->get();
+        $tasks = Task::with('user')->paginate(5);
 
         return Inertia::render('tasks/index', [
             'tasks' => $tasks,
