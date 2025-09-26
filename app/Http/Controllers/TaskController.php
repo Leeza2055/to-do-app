@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
@@ -14,7 +15,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::with('user')->paginate(5);
+        $tasks = Task::with('user')->latest()->paginate(5);
 
         return Inertia::render('tasks/index', [
             'tasks' => $tasks,
@@ -26,7 +27,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('tasks/create');
     }
 
     /**
@@ -34,7 +35,13 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $task = auth()->user()->tasks()->create([...$validated, 'status' => TaskStatus::PENDING]);
+        if ($task) {
+            return to_route('tasks.index')->with('success', 'Task created successfully.');
+        } else {
+            return back()->withErrors('Failed to create task. Please try again.');
+        }
     }
 
     /**

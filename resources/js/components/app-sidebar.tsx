@@ -29,6 +29,12 @@ const mainNavItems: NavItem[] = [
         href: tasks.index().url,
         icon: LayoutGrid,
     },
+
+    {
+        title: 'Task Create',
+        href: tasks.create().url,
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

@@ -45,7 +45,7 @@ export default function Index({ tasks }) {
                                     {task.title}
                                 </TableCell>
                                 <TableCell>
-                                    {task.description.slice(0, 30)}...
+                                    {task.description.length > 30 ? task.description.slice(0, 30) + '...' : task.description}
                                 </TableCell>
                                 <TableCell>
                                     {t(`common.status.${task.status}`)}
