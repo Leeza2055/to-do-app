@@ -12,7 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Create() {
-    const { data, setData, post, errors, processing, clearErrors, setError } = useForm({
+    const { data, setData, post, errors, processing, clearErrors } = useForm({
         title: '',
         description: '',
         due_date: '',

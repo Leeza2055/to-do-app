@@ -1,7 +1,7 @@
 import AppLayout from "@/layouts/app-layout";
 import { Head } from "@inertiajs/react";
 import { type BreadcrumbItem } from '@/types';
-import tasks from "@/routes/tasks";
+import tasksRoutes from "@/routes/tasks";
 import {
     Table,
     TableBody,
@@ -12,12 +12,13 @@ import {
 } from '@/components/ui/table';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 import AppPagination from "@/components/app-pagination"
+import { Link } from "@inertiajs/react";
 
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Tasks',
-        href: tasks.index().url,
+        href: tasksRoutes.index().url,
     },
 ];
 
@@ -42,7 +43,9 @@ export default function Index({ tasks }) {
                         tasks.data.map((task) => (
                             <TableRow key={task.id}>
                                 <TableCell className="font-medium">
-                                    {task.title}
+                                    <Link href={tasksRoutes.show({task}).url} className="text-blue-600 hover:underline">
+                                        {task.title}
+                                    </Link>
                                 </TableCell>
                                 <TableCell>
                                     {task.description.length > 30 ? task.description.slice(0, 30) + '...' : task.description}

@@ -49,7 +49,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return Inertia::render('tasks/show', [
+            'task' => $task->load('user'),
+        ]);
     }
 
     /**
