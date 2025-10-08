@@ -38,7 +38,7 @@ class TaskController extends Controller
         $validated = $request->validated();
         $task = auth()->user()->tasks()->create([...$validated, 'status' => TaskStatus::PENDING]);
         if ($task) {
-            return to_route('tasks.index')->with('success', 'Task created successfully.');
+            return to_route('tasks.index');
         } else {
             return back()->withErrors('Failed to create task. Please try again.');
         }
@@ -75,6 +75,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return to_route('tasks.index');
     }
 }

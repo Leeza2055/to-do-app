@@ -5,4 +5,5 @@ return [
         'pending' => 'Pending',
         'completed' => 'Completed',
     ],
+    'task_deleted' => 'Task deleted successfully.',
 ];

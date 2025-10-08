@@ -13,6 +13,8 @@ import {
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 import AppPagination from "@/components/app-pagination"
 import { Link } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -24,10 +26,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index({ tasks }) {
     const { t } = useLaravelReactI18n();
+    const { delete: destroy } = useForm();
+    const notify = () => toast.info(t('common.task_deleted'));
 
+    function submit(e) {
+        e.preventDefault();
+        destroy(tasksRoutes.destroy({ id: e.target.id }).url);
+
+    }
+    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tasks" />
+            <ToastContainer />
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -43,12 +54,17 @@ export default function Index({ tasks }) {
                         tasks.data.map((task) => (
                             <TableRow key={task.id}>
                                 <TableCell className="font-medium">
-                                    <Link href={tasksRoutes.show({task}).url} className="text-blue-600 hover:underline">
+                                    <Link
+                                        href={tasksRoutes.show({ task }).url}
+                                        className="text-blue-600 hover:underline"
+                                    >
                                         {task.title}
                                     </Link>
                                 </TableCell>
                                 <TableCell>
-                                    {task.description.length > 30 ? task.description.slice(0, 30) + '...' : task.description}
+                                    {task.description.length > 30
+                                        ? task.description.slice(0, 30) + '...'
+                                        : task.description}
                                 </TableCell>
                                 <TableCell>
                                     {t(`common.status.${task.status}`)}
@@ -59,6 +75,17 @@ export default function Index({ tasks }) {
                                     ).toLocaleDateString()}
                                 </TableCell>
                                 <TableCell>{task.user.name}</TableCell>
+                                <TableCell>
+                                    <form onSubmit={submit} id={task.id}>
+                                        <button
+                                            type="submit"
+                                            onClick={notify}
+                                            className="cursor-pointer text-red-600 hover:underline"
+                                        >
+                                            Delete
+                                        </button>
+                                    </form>
+                                </TableCell>
                             </TableRow>
                         ))
                     ) : (
@@ -70,9 +97,7 @@ export default function Index({ tasks }) {
                     )}
                 </TableBody>
             </Table>
-            {tasks.links.length > 3 && (
-                <AppPagination links={tasks.links} />
-            )}
+            {tasks.links.length > 3 && <AppPagination links={tasks.links} />}
         </AppLayout>
     );
 }
