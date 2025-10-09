@@ -10,7 +10,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-
 export default function Edit({ task }) { 
     const { data, setData, put, errors, processing, clearErrors } = useForm({
         title: task.title,
