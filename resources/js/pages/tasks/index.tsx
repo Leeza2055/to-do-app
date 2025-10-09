@@ -16,7 +16,6 @@ import { Link } from "@inertiajs/react";
 import { useForm } from "@inertiajs/react";
 import { ToastContainer, toast } from 'react-toastify';
 
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Tasks',
@@ -75,6 +74,7 @@ export default function Index({ tasks }) {
                                     ).toLocaleDateString()}
                                 </TableCell>
                                 <TableCell>{task.user.name}</TableCell>
+                                <TableCell><Link href={tasksRoutes.edit({ task }).url} className="text-blue-600 hover:underline">Edit</Link></TableCell>
                                 <TableCell>
                                     <form onSubmit={submit} id={task.id}>
                                         <button

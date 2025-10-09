@@ -3,7 +3,6 @@ import { Head, useForm } from "@inertiajs/react";
 import { type BreadcrumbItem } from '@/types';
 import tasks from '@/routes/tasks';
 
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Tasks',
@@ -11,22 +10,22 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Create() {
-    const { data, setData, post, errors, processing, clearErrors } = useForm({
-        title: '',
-        description: '',
-        due_date: '',
+
+export default function Edit({ task }) { 
+    const { data, setData, put, errors, processing, clearErrors } = useForm({
+        title: task.title,
+        description: task.description,
+        due_date: task.due_date,
     });
 
     function submit(e) {
         e.preventDefault();
-        post(tasks.store().url);
+        put(tasks.update(task).url);
     }
 
-    
-    return (
+    return(
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Tasks Create" />
+            <Head title="Task Edit" />
             <div className="px-4 py-6">
                 <form onSubmit={submit}
                     className="mx-auto flex max-w-md flex-col gap-4"
@@ -69,7 +68,7 @@ export default function Create() {
                         disabled={processing}
                         className="rounded-md bg-blue-500 p-2 text-white hover:bg-blue-600"
                     >
-                        Create Task
+                        Update Task
                     </button>
                 </form>
             </div>
